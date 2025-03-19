@@ -6,15 +6,16 @@ const app = express();
 
 const PORT = process.env.PORT || 4100;
 
-// await mongoose.connect(process.env.MONGO_URI)
-// .then(() => console.log('Database connected'))
-// .catch( err => console.log('error'))
-
+await mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log('Database connected'))
+.catch( err => console.log('error'))
 
 app.use(cors());
+
+// Body parser
 app.use(express.json());
 
-
+// App listening on PORT
 app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`);
 });
