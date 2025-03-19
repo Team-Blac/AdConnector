@@ -6,9 +6,9 @@ import {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const registerVendor = async (req, res, next) => {
+export const registerUser = async (req, res, next) => {
   // Validate user information
-  const { error, value } = registerUserValidator.validate(req.body);
+  const { error, value } = registerVendorValidator.validate(req.body);
   if (error) {
     return res.status(422).json(error);
   }
@@ -30,12 +30,12 @@ export const registerVendor = async (req, res, next) => {
   // Send registration email to user
   // (Optionally) Generate access token for user
   // Return Response
-  res.status(201).json("Vendor registered successfully!");
+  return res.status(201).json("Vendor registered successfully!");
 };
 
 export const loginUser = async (req, res, next) => {
   // Validate user information
-  const { error, value } = loginUserValidator.validate(req.body);
+  const { error, value } = loginVendorValidator.validate(req.body);
   if (error) {
     return res.status(422).json(error);
   }
@@ -57,5 +57,5 @@ export const loginUser = async (req, res, next) => {
     expiresIn: "24h",
   });
   // Return Response
-  res.status(200).json({ accessToken });
+  return res.status(200).json({ accessToken });
 };
