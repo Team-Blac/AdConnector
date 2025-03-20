@@ -1,4 +1,4 @@
-import { UserModel } from "../models/user_model.js";
+import { VendorModel } from "../models/vendors.js";
 import { vendorValidator } from "../validators/vendor.js";
 
 export const createAdvert = async(req,res,next) => {
@@ -11,7 +11,7 @@ export const createAdvert = async(req,res,next) => {
             return res.status(400).json(error);
         }
     
-        const user = await UserModel.create(value);
+        const user = await VendorModel.create(value);
         res.status(201).json({message: 'User successfully created.'})
     } catch (error) {
         next(error);
@@ -21,7 +21,7 @@ export const createAdvert = async(req,res,next) => {
 
 export const getAdverts = async(req,res,next) => {
     try {
-        const users = await UserModel.find();
+        const users = await VendorModel.find();
     
         return res.status(200).json(users);
     } catch (error) {
@@ -33,7 +33,7 @@ export const getAdvert = async(req,res) => {
     try {
         const {id} = req.params;
     
-        const advert = await UserModel.findById(id);
+        const advert = await VendorModel.findById(id);
     
         if(!advert)
         {
@@ -50,7 +50,7 @@ export const deleteAdvert = async(req,res) => {
     try {
         const {id} = req.params;
     
-        const advert = await UserModel.findByIdAndDelete(id);
+        const advert = await VendorModel.findByIdAndDelete(id);
     
         if(!advert)
         {
@@ -68,7 +68,7 @@ export const updateAdvert = async(req,res) => {
     try {
         const advertId = req.params.id;
     
-        const advert = await UserModel.findByIdAndUpdate(advertId,req.body,{new:true});
+        const advert = await VendorModel.findByIdAndUpdate(advertId,req.body,{new:true});
     
         if(!advert)
         {
