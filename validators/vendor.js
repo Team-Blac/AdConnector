@@ -1,10 +1,10 @@
 import Joi from "joi";
 
 export const vendorValidator = Joi.object({
-  name: Joi.string().required(),
+  title: Joi.string().required(),
   price: Joi.number().required(),
   description: Joi.string().required(),
-//   image: Joi.string().required(),
+  pictures: Joi.string().required(),
   quantity: Joi.number().required(),
 
 });

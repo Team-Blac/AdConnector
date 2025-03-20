@@ -7,6 +7,6 @@ const userSchema = new Schema({
     password: {type: String,}
 });
 
-vendorSchema.plugin(normalize);
+userSchema.plugin(normalize);
 
 export const UserModel = model('User', userSchema);
