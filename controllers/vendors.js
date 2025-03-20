@@ -4,14 +4,20 @@ import { vendorValidator } from "../validators/vendor.js";
 export const createAdvert = async(req,res,next) => {
     try {
         // Validate incoming user data
-        const {error,value} = vendorValidator.validate(req.body);
+        const {error,value} = vendorValidator.validate({
+            ...req.body,
+            pictures: req.files?.map((file) => {
+                return file.filename;
+            }   )     
+        });
     
         if(error)
         {
             return res.status(400).json(error);
         }
     
-        const user = await VendorModel.create(value);
+        const user = await VendorModel.create({...value});
+        
         res.status(201).json({message: 'User successfully created.'})
     } catch (error) {
         next(error);

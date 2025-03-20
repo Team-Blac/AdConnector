@@ -6,7 +6,7 @@ import vendorRouter from "./routes/vendor.js";
 
 const app = express();
 
-const PORT = process.env.PORT || 4100;
+const PORT = process.env.PORT || 4500;
 
 await mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Database connected'))
