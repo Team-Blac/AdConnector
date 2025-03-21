@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import normalize from "normalize-mongoose";
 
 
-const vendorSchema = new Schema ({
+const advertSchema = new Schema ({
     title:{ type: String, required: true, unique: true},
     description: { type: String, required: true},
     pictures: [{type: String, required: true}],
@@ -12,6 +12,6 @@ const vendorSchema = new Schema ({
     timestamps: true
 });
 
-vendorSchema.plugin(normalize);
+advertSchema.plugin(normalize);
 
-export const VendorModel = model('Vendor', vendorSchema)
+export const AdvertModel = model('Vendor', advertSchema)

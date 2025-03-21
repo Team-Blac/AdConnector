@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const vendorValidator = Joi.object({
+export const advertValidator = Joi.object({
   title: Joi.string().required(),
   price: Joi.number().required(),
   description: Joi.string().required(),

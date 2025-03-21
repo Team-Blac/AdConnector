@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors"
 import userRouter from "./routes/user.js";
-import vendorRouter from "./routes/vendor.js";
+import advertRouter from "./routes/adverts.js";
 
 const app = express();
 
@@ -17,8 +17,8 @@ app.use(cors());
 // Body parser
 app.use(express.json());
 
-app.use('/api/v1',userRouter);
-app.use("/api/v1", vendorRouter);
+app.use('/api',userRouter);
+app.use("/api", advertRouter);
 
 // App listening on PORT
 app.listen(PORT, () => {
