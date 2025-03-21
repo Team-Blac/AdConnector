@@ -1,4 +1,4 @@
-import { UserModel } from "../models/user_model.js";
+import { UserModel } from "../models/user.js";
 import {
   loginVendorValidator,
   registerVendorValidator,
@@ -18,7 +18,7 @@ export const registerUser = async (req, res, next) => {
   });
 
   if (user) {
-    return res.status(409).json("Vendor already exists.");
+    return res.status(409).json("Advert already exists.");
   }
   // Hash plaintext password
   const hashedPassword = bcrypt.hashSync(value.password, 10);
@@ -30,7 +30,7 @@ export const registerUser = async (req, res, next) => {
   // Send registration email to user
   // (Optionally) Generate access token for user
   // Return Response
-  return res.status(201).json("Vendor registered successfully!");
+  return res.status(201).json("Advert registered successfully!");
 };
 
 export const loginUser = async (req, res, next) => {
@@ -45,7 +45,7 @@ export const loginUser = async (req, res, next) => {
   });
 
   if (!user) {
-    return res.status(404).json("Vendor does not exist!");
+    return res.status(404).json("Advert does not exist!");
   }
   // Compare incoming password with saved password
   const correctPassword = bcrypt.compareSync(value.password, user.password);

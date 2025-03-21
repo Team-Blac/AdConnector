@@ -1,10 +1,10 @@
-import { VendorModel } from "../models/vendors.js";
-import { vendorValidator } from "../validators/vendor.js";
+import { AdvertModel } from "../models/advert.js";
+import { advertValidator } from "../validators/advert.js";
 
 export const createAdvert = async(req,res,next) => {
     try {
         // Validate incoming user data
-        const {error,value} = vendorValidator.validate({
+        const {error,value} = advertValidator.validate({
             ...req.body,
             pictures: req.files?.map((file) => {
                 return file.filename;
@@ -16,7 +16,7 @@ export const createAdvert = async(req,res,next) => {
             return res.status(400).json(error);
         }
     
-        const user = await VendorModel.create({...value});
+        const user = await AdvertModel.create({...value});
         
         res.status(201).json({message: 'User successfully created.'})
     } catch (error) {
@@ -27,7 +27,7 @@ export const createAdvert = async(req,res,next) => {
 
 export const getAdverts = async(req,res,next) => {
     try {
-        const users = await VendorModel.find();
+        const users = await AdvertModel.find();
     
         return res.status(200).json(users);
     } catch (error) {
@@ -39,7 +39,7 @@ export const getAdvert = async(req,res) => {
     try {
         const {id} = req.params;
     
-        const advert = await VendorModel.findById(id);
+        const advert = await AdvertModel.findById(id);
     
         if(!advert)
         {
@@ -56,7 +56,7 @@ export const deleteAdvert = async(req,res) => {
     try {
         const {id} = req.params;
     
-        const advert = await VendorModel.findByIdAndDelete(id);
+        const advert = await AdvertModel.findByIdAndDelete(id);
     
         if(!advert)
         {
@@ -74,7 +74,7 @@ export const updateAdvert = async(req,res) => {
     try {
         const advertId = req.params.id;
     
-        const advert = await VendorModel.findByIdAndUpdate(advertId,req.body,{new:true});
+        const advert = await AdvertModel.findByIdAndUpdate(advertId,req.body,{new:true});
     
         if(!advert)
         {
