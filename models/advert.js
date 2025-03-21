@@ -9,7 +9,6 @@ const advertSchema = new Schema ({
     price: {type: Number, required: true},
     quantity: {type: Number, required: true},
     userId:{type:Types.ObjectId, required: true, ref: 'User'}
-
 },{
     timestamps: true
 });
