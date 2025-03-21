@@ -5,6 +5,7 @@ import {
 } from "../validators/users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { sendEmail } from "../utils/mailing.js";
 
 export const registerUser = async (req, res, next) => {
   // Validate user information
@@ -14,23 +15,42 @@ export const registerUser = async (req, res, next) => {
   }
   // Check if user does not exist already
   const user = await UserModel.findOne({
-    $or: [{ username: value.username }, { email: value.email }],
+    email: value.email
   });
 
   if (user) {
-    return res.status(409).json("Advert already exists.");
+    return res.status(409).json("User already exists.");
   }
   // Hash plaintext password
   const hashedPassword = bcrypt.hashSync(value.password, 10);
   // Create user record in database
-  await UserModel.create({
-    ...value,
-    password: hashedPassword,
+  const newUser = await UserModel.create({
+    userName: value.userName,
+    email: value.email,
+    password: hashedPassword
   });
+
+  
   // Send registration email to user
+  
+  
+
+    await sendEmail(newUser.email, "Welcome To Adconnect", `<h1>Welcome to My Gift</h1>
+    <p>Hello <strong>${newUser.userName}</strong>,</p>
+    <p>We are excited to have you on board! 🎉</p>
+    <p>Start posting your ads and we will help you grow your bussiness:</p>
+    <a href="https://adconnector.com" 
+       style="display:inline-block; padding:10px 20px; background-color:#007BFF; color:white; text-decoration:none; border-radius:5px;">
+       Start advertizing!
+    </a>
+    <p>Happy Shopping! </p>
+    <hr>
+    <small>If you did not sign up for this, please ignore this email.</small>`);
+
+
   // (Optionally) Generate access token for user
   // Return Response
-  return res.status(201).json("Advert registered successfully!");
+  return res.status(201).json("User registered successfully!");
 };
 
 export const loginUser = async (req, res, next) => {
@@ -41,11 +61,11 @@ export const loginUser = async (req, res, next) => {
   }
   // Find matching user record in database
   const user = await UserModel.findOne({
-    $or: [{ username: value.username }, { email: value.email }],
+    email: value.email
   });
 
   if (!user) {
-    return res.status(404).json("Advert does not exist!");
+    return res.status(404).json("User does not exist!");
   }
   // Compare incoming password with saved password
   const correctPassword = bcrypt.compareSync(value.password, user.password);
