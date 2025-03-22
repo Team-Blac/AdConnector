@@ -43,3 +43,31 @@ AdConnector is a  backend API for vendors and users with authentication and auth
 ```sh
 git clone https://github.com/yourusername/vendors-users-api.git
 cd vendors-users-api
+
+2️⃣ Install dependencies:
+```sh
+npm install
+
+3️⃣ Create a .env file and add:
+PORT=5000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret_key
+
+4️⃣ Run the server:
+```sh
+npm run dev
+
+## 🔐 Authentication & Authorization
+Users can view adverts.
+Vendors can create, update, and delete their own adverts.
+JWT Token Required for protected routes.
+
+🤝 Contributing
+Fork the repo
+Create a feature branch (git checkout -b feature-name)
+Commit changes (git commit -m "Added feature X")
+Push to the branch (git push origin feature-name)
+Open a pull request 🚀
+
+📜 License
+This project is licensed under the MIT License.
