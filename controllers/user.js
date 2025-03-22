@@ -9,6 +9,7 @@ import { sendEmail } from "../utils/mailing.js";
 
 export const registerUser = async (req, res, next) => {
   // Validate user information
+  console.log("Before Joi Validation:", req.body);
   const { error, value } = registerVendorValidator.validate(req.body);
   if (error) {
     return res.status(422).json(error);
@@ -19,14 +20,17 @@ export const registerUser = async (req, res, next) => {
   });
 
   if (user) {
-    return res.status(409).json("User already exists.");
+    return res
+      .status(409)
+      .json("Email already in use. Please log in or use a different email.");
   }
   // Hash plaintext password
   const hashedPassword = bcrypt.hashSync(value.password, 10);
+
+  console.log("After Joi Validation:", value);
   // Create user record in database
   const newUser = await UserModel.create({
-    userName: value.userName,
-    email: value.email,
+    ...value,
     password: hashedPassword
   });
 
@@ -50,7 +54,7 @@ export const registerUser = async (req, res, next) => {
 
   // (Optionally) Generate access token for user
   // Return Response
-  return res.status(201).json("User registered successfully!");
+  return res.status(201).json("Registration successful! Welcome aboard.");
 };
 
 export const loginUser = async (req, res, next) => {
@@ -65,16 +69,18 @@ export const loginUser = async (req, res, next) => {
   });
 
   if (!user) {
-    return res.status(404).json("User does not exist!");
+    return res
+      .status(404)
+      .json("User not found. Please sign up to create an account.");
   }
   // Compare incoming password with saved password
   const correctPassword = bcrypt.compareSync(value.password, user.password);
   if (!correctPassword) {
-    return res.status(401).json("Invalid credentials!");
+    return res.status(401).json("Invalid email or password. Please try again.");
   }
   // Generate access token for user
   const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "24h",
+    expiresIn: "2h",
   });
   
   // Return Response

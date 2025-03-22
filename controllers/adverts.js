@@ -48,9 +48,13 @@ export const createAdvert = async (req, res, next) => {
 
 export const getAdverts = async (req, res, next) => {
   try {
-    const users = await AdvertModel.find();
-
-    return res.status(200).json(users);
+    const { filter = "{}", sort = "{}" } = req.query;
+    // Fetch products from database
+    const result = await AdvertModel.find(JSON.parse(filter)).sort(
+      JSON.parse(sort)
+    );
+    // Return response`
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
