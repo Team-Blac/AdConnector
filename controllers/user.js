@@ -36,9 +36,6 @@ export const registerUser = async (req, res, next) => {
 
   
   // Send registration email to user
-  
-  
-
     await sendEmail(newUser.email, "Welcome To Adconnect", `<h1>Welcome to My Gift</h1>
     <p>Hello <strong>${newUser.userName}</strong>,</p>
     <p>We are excited to have you on board! 🎉</p>
