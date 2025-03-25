@@ -1,7 +1,8 @@
 import { UserModel } from "../models/user.js";
 import {
-  loginVendorValidator,
-  registerVendorValidator,
+  loginUserValidator,
+  registerUserValidator,
+  updateUserValidator
 } from "../validators/users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -10,7 +11,7 @@ import { sendEmail } from "../utils/mailing.js";
 export const registerUser = async (req, res, next) => {
   // Validate user information
   console.log("Before Joi Validation:", req.body);
-  const { error, value } = registerVendorValidator.validate(req.body);
+  const { error, value } = registerUserValidator.validate(req.body);
   if (error) {
     return res.status(422).json(error);
   }
@@ -56,7 +57,7 @@ export const registerUser = async (req, res, next) => {
 
 export const loginUser = async (req, res, next) => {
   // Validate user information
-  const { error, value } = loginVendorValidator.validate(req.body);
+  const { error, value } = loginUserValidator.validate(req.body);
   if (error) {
     return res.status(422).json(error);
   }
@@ -84,6 +85,21 @@ export const loginUser = async (req, res, next) => {
   return res.status(200).json({accessToken});
 };
 
+
+// Update user 
+export const updateUser = async (req, res, next) => {
+  // Validate request body
+  const { error, value } = updateUserValidator.validate(req.body);
+  if (error) {
+    return res.status(422).json(error);
+  }
+  // Update user in database
+  const result = await UserModel.findByIdAndUpdate(req.params.id, value, {
+    new: true,
+  });
+  // return response
+  res.status(200).json("User role successfully update!");
+};
 
 //Get current user.
 export const getAuthenticatedUser = async (req, res, next) => {
