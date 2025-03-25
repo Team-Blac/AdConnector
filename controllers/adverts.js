@@ -42,6 +42,10 @@ export const createAdvert = async (req, res, next) => {
 
     res.status(201).json({ message: "Advert successfully created." });
   } catch (error) {
+    if(error.name === 'MongooseError')
+    {
+      return res.status(409).json(error.message);
+    }
     next(error);
   }
 };
