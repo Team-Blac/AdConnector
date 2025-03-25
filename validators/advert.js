@@ -9,7 +9,5 @@ export const advertValidator = Joi.object({
   price: Joi.number().required(),
   description: Joi.string().required(),
   pictures: Joi.array().items(Joi.string().required()),
-  categories: Joi.array()
-    .items(Joi.string().valid(...CategoryEnum)) // Ensures only valid categories
-    .required(),
+  categories: Joi.string().valid(...CategoryEnum).default('Shirt').required()
 });

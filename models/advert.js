@@ -2,12 +2,8 @@ import { Schema, model, Types } from "mongoose";
 import normalize from "normalize-mongoose";
 
 // Define the category enum values
-const CategoryEnum = {
-  SHIRT: "Shirt",
-  PANTS: "Pants",
-  SHOES: "Shoes",
-  ACCESSORIES: "Accessories",
-};
+const CategoryEnum = ["Shirt", "Pants", "Shoes", "Accessories"];
+
 
 const advertSchema = new Schema(
   {
@@ -15,13 +11,13 @@ const advertSchema = new Schema(
     description: { type: String, required: true },
     pictures: [{ type: String, required: true }],
     price: { type: Number, required: true },
-    categories: [
-      {
-        type: String,
-        enum: Object.values(CategoryEnum), // Ensures only valid category values
-        required: true,
-      },
-    ],
+    
+    categories: {
+      type: String,
+      enum: CategoryEnum, //Ensure only valid category value
+      required: true
+    },
+
     userId: { type: Types.ObjectId, required: true, ref: "User" },
   },
   {
