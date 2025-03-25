@@ -92,7 +92,7 @@ export const deleteAdvert = async (req, res) => {
   }
 };
 
-export const updateAdvert = async (req, res) => {
+export const updateAdvert = async (req, res,next) => {
   try {
     const advertId = req.params.id;
 
