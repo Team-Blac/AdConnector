@@ -8,7 +8,7 @@ const roles = [
 ];
 
 
-export const registerVendorValidator = Joi.object({
+export const registerUserValidator = Joi.object({
   userName: Joi.string().required(),
   email: Joi.string().required(),
   role: Joi.string().valid(...roles).default('customer'),
@@ -16,8 +16,15 @@ export const registerVendorValidator = Joi.object({
   confirmPassword: Joi.ref("password"),
 }).with("password", "confirmPassword");
 
-export const loginVendorValidator = Joi.object({
+export const loginUserValidator = Joi.object({
   userName: Joi.string().optional(),
   email: Joi.string().optional(),
   password: Joi.string().required(),
+});
+
+
+export const updateUserValidator = Joi.object({
+  role: Joi.string()
+    .valid("staff", "manager", "admin", "superadmin")
+    .required(),
 });
