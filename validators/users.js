@@ -25,6 +25,6 @@ export const loginUserValidator = Joi.object({
 
 export const updateUserValidator = Joi.object({
   role: Joi.string()
-    .valid("staff", "manager", "admin", "superadmin")
+    .valid("customer", "vendor", "admin", "superadmin")
     .required(),
 });
