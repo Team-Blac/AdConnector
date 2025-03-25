@@ -83,3 +83,14 @@ export const loginUser = async (req, res, next) => {
   // Return Response
   return res.status(200).json({accessToken});
 };
+
+
+//Get current user.
+export const getAuthenticatedUser = async (req, res, next) => {
+  // Get User by using req.auth.id
+  const result = await UserModel.findById(req.auth.id).select({
+    password: false,
+  });
+  // Return response
+  res.status(200).json(result);
+};

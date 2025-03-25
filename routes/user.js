@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { loginUser, registerUser } from "../controllers/user.js";
+import { getAuthenticatedUser, loginUser, registerUser } from "../controllers/user.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 // Create user router
 const userRouter = Router();
@@ -8,6 +9,8 @@ const userRouter = Router();
 userRouter.post("/auth/register", registerUser);
 
 userRouter.post("/auth/login", loginUser);
+
+userRouter.get("/users/me", isAuthenticated, getAuthenticatedUser);
 
 // Export router
 export default userRouter;
