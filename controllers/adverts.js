@@ -53,22 +53,35 @@ export const getAdverts = async (req, res, next) => {
   try {
     const { filter = "{}", sort = "{}" } = req.query;
     // Fetch products from database
-
-    const query = {userId: req.auth.id, ...filter}
-    const advert = await AdvertModel.find(query);
-    
+    const result = await AdvertModel.find(JSON.parse(filter)).sort(
+      JSON.parse(sort)
+    );
     // Return response`
-    res.status(200).json(advert);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
 };
 
+export const getVendorAdverts = async(req,res,next) => {
+  try {
+    const { filter = "{}", sort = "{}" } = req.query;
+    // Fetch products from database
+    const query = { userId: req.auth.id };
+    const advert = await AdvertModel.find(query);
+  
+    // Return response
+    res.status(200).json(advert);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export const getAdvert = async (req, res, next) => {
   try {
-    // const { id } = req.params;
+    const { id } = req.params;
 
-    const advert = await AdvertModel.findOne({_id: req.params.id, userId: req.auth.id });
+    const advert = await AdvertModel.findOne({_id:req.params.id, userId: req.auth.id });
 
     if (!advert) {
       return res.status(404).json("Advert not found");
