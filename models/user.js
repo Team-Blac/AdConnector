@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 import normalize from "normalize-mongoose";
 
 const userSchema = new Schema({

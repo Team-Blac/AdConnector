@@ -49,7 +49,6 @@ export const registerUser = async (req, res, next) => {
     <hr>
     <small>If you did not sign up for this, please ignore this email.</small>`);
 
-
   // (Optionally) Generate access token for user
   // Return Response
   return res.status(201).json("Registration successful! Welcome aboard.");

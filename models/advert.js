@@ -27,4 +27,4 @@ const advertSchema = new Schema(
 
 advertSchema.plugin(normalize);
 
-export const AdvertModel = model("Vendor", advertSchema);
+export const AdvertModel = model("Advert", advertSchema);
