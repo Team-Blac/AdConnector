@@ -2,7 +2,7 @@ import { UserModel } from "../models/user.js";
 import {
   loginUserValidator,
   registerUserValidator,
-  updateUserValidator
+  updateUserValidator,
 } from "../validators/users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -17,7 +17,7 @@ export const registerUser = async (req, res, next) => {
   }
   // Check if user does not exist already
   const user = await UserModel.findOne({
-    email: value.email
+    email: value.email,
   });
 
   if (user) {
@@ -32,12 +32,14 @@ export const registerUser = async (req, res, next) => {
   // Create user record in database
   const newUser = await UserModel.create({
     ...value,
-    password: hashedPassword
+    password: hashedPassword,
   });
 
-  
   // Send registration email to user
-    await sendEmail(newUser.email, "Welcome To Adconnect", `<h1>Welcome to My Gift</h1>
+  await sendEmail(
+    newUser.email,
+    "Welcome To Adconnect",
+    `<h1>Welcome to My Gift</h1>
     <p>Hello <strong>${newUser.userName}</strong>,</p>
     <p>We are excited to have you on board! 🎉</p>
     <p>Start posting your ads and we will help you grow your bussiness:</p>
@@ -47,7 +49,9 @@ export const registerUser = async (req, res, next) => {
     </a>
     <p>Happy Shopping! </p>
     <hr>
-    <small>If you did not sign up for this, please ignore this email.</small>`);
+
+    <small>If you did not sign up for this, please ignore this email.</small>`
+  );
 
   // (Optionally) Generate access token for user
   // Return Response
@@ -62,7 +66,7 @@ export const loginUser = async (req, res, next) => {
   }
   // Find matching user record in database
   const user = await UserModel.findOne({
-    email: value.email
+    email: value.email,
   });
 
   if (!user) {
@@ -79,13 +83,20 @@ export const loginUser = async (req, res, next) => {
   const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
     expiresIn: "2h",
   });
-  
+
   // Return Response
-  return res.status(200).json({accessToken});
+  return res.status(200).json({
+    accessToken,
+    user: {
+      id: user.id,
+      role: user.role,
+      userName: user.userName,
+      email: user.email,
+    },
+  });
 };
 
-
-// Update user 
+// Update user
 export const updateUser = async (req, res, next) => {
   // Validate request body
   const { error, value } = updateUserValidator.validate(req.body);
