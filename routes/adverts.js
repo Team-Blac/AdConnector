@@ -24,18 +24,26 @@ advertRouter.post(
   createAdvert
 );
 
-advertRouter.get("/adverts/",getAdverts);
+advertRouter.get("/adverts/", getAdverts);
 
-advertRouter.get("/adverts/vendor",isAuthenticated, isAuthorized(['superadmin','admin','vendor']),getVendorAdverts);
+advertRouter.get(
+  "/adverts/vendor",
+  isAuthenticated,
+  isAuthorized(["superadmin", "admin", "vendor"]),
+  getVendorAdverts
+);
 
 advertRouter.delete(
   "/adverts/:id",
   isAuthenticated,
-  isAuthorized(["superadmin", "admin","vendor"]),
+  isAuthorized(["superadmin", "admin", "vendor"]),
   deleteAdvert
 );
 
-advertRouter.get("/adverts/:id", isAuthenticated, getAdvert);
+advertRouter.get(
+  "/adverts/:id",
+  getAdvert
+);
 
 advertRouter.patch(
   "/adverts/:id",
