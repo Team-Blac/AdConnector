@@ -63,25 +63,28 @@ export const getAdverts = async (req, res, next) => {
   }
 };
 
-export const getVendorAdverts = async(req,res,next) => {
+export const getVendorAdverts = async (req, res, next) => {
   try {
     const { filter = "{}", sort = "{}" } = req.query;
     // Fetch products from database
     const query = { userId: req.auth.id };
     const advert = await AdvertModel.find(query);
-  
+
     // Return response
     res.status(200).json(advert);
   } catch (error) {
     next(error);
   }
-}
+};
 
 export const getAdvert = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const advert = await AdvertModel.findOne({_id:req.params.id, userId: req.auth.id });
+    const advert = await AdvertModel.findOne({
+      _id: req.params.id,
+      userId: req.auth.id,
+    });
 
     if (!advert) {
       return res.status(404).json("Advert not found");
@@ -103,7 +106,7 @@ export const deleteAdvert = async (req, res, next) => {
     });
 
     if (!advert) {
-      return res.status(404).json({error: "Advert not found"})
+      return res.status(404).json({ error: "Advert not found" });
     }
 
     await AdvertModel.findByIdAndDelete(advert.id);
@@ -116,14 +119,14 @@ export const deleteAdvert = async (req, res, next) => {
 
 export const updateAdvert = async (req, res, next) => {
   try {
-    const advertId = req.params.id;
+    const advert = await AdvertModel.findOne({
+      _id: req.params.id,
+      userId: req.auth.id,
+    });
 
-    const advert = await AdvertModel.findOne({_id: req.params.id, userId: req.auth.id});
-
-    if(!advert){
-      return res.status(404).json('Advert not found');
+    if (!advert) {
+      return res.status(404).json("Advert not found");
     }
-
 
     await AdvertModel.findByIdAndUpdate(advert.id, req.body, {
       new: true,
