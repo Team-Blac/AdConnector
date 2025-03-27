@@ -64,7 +64,7 @@ export const getAdverts = async (req, res, next) => {
   }
 };
 
-export const getAdvert = async (req, res) => {
+export const getAdvert = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -76,11 +76,11 @@ export const getAdvert = async (req, res) => {
 
     return res.status(200).json(advert);
   } catch (error) {
-    next(error);
+    next(error); 
   }
 };
 
-export const deleteAdvert = async (req, res) => {
+export const deleteAdvert = async (req, res, next) => {
   try {
     const { id } = req.params;
 
