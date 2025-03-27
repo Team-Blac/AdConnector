@@ -35,7 +35,7 @@ advertRouter.delete(
   deleteAdvert
 );
 
-advertRouter.get("/adverts/:id", isAuthorized, getAdvert);
+advertRouter.get("/adverts/:id", isAuthenticated, getAdvert);
 
 advertRouter.patch(
   "/adverts/:id",
