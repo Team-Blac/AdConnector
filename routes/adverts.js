@@ -4,6 +4,7 @@ import {
   deleteAdvert,
   getAdvert,
   getAdverts,
+  getVendorAdverts,
   updateAdvert,
 } from "../controllers/adverts.js";
 import { advertPicturesUpload } from "../middlewares/upload.js";
@@ -24,6 +25,8 @@ advertRouter.post(
 );
 
 advertRouter.get("/adverts/", getAdverts);
+
+advertRouter.get("/adverts/vendor",isAuthenticated, isAuthorized(['superadmin','admin','vendor']),getVendorAdverts);
 
 advertRouter.delete(
   "/adverts/:id",
