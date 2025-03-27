@@ -6,7 +6,7 @@ import advertRouter from "./routes/adverts.js";
 
 const app = express();
 
-const PORT = process.env.PORT || 4500;
+const PORT = process.env.PORT || 7000;
 
 await mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Database connected'))
