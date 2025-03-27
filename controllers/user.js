@@ -49,6 +49,7 @@ export const registerUser = async (req, res, next) => {
     </a>
     <p>Happy Shopping! </p>
     <hr>
+
     <small>If you did not sign up for this, please ignore this email.</small>`
   );
 
