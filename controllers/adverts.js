@@ -79,8 +79,6 @@ export const getVendorAdverts = async (req, res, next) => {
 
 export const getAdvert = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
     const advert = await AdvertModel.findOne({
       _id: req.params.id,
       userId: req.auth.id,
