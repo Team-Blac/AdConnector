@@ -79,10 +79,12 @@ export const getVendorAdverts = async (req, res, next) => {
 
 export const getAdvert = async (req, res, next) => {
   try {
-    const advert = await AdvertModel.findOne({
-      _id: req.params.id,
-      userId: req.auth.id,
-    });
+    // const advert = await AdvertModel.findOne({
+    //   _id: req.params.id,
+    //   userId: req.auth.id,
+    // });
+
+    const advert = await AdvertModel.findById(req.params.id);
 
     if (!advert) {
       return res.status(404).json("Advert not found");
