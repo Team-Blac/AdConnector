@@ -10,11 +10,12 @@ import { sendEmail } from "../utils/mailing.js";
 
 export const registerUser = async (req, res, next) => {
   // Validate user information
-  console.log("Before Joi Validation:", req.body);
   const { error, value } = registerUserValidator.validate(req.body);
+
   if (error) {
     return res.status(422).json(error);
   }
+  
   // Check if user does not exist already
   const user = await UserModel.findOne({
     email: value.email
@@ -27,8 +28,6 @@ export const registerUser = async (req, res, next) => {
   }
   // Hash plaintext password
   const hashedPassword = bcrypt.hashSync(value.password, 10);
-
-  console.log("After Joi Validation:", value);
   // Create user record in database
   const newUser = await UserModel.create({
     ...value,
