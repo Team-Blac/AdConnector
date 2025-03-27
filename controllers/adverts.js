@@ -42,8 +42,7 @@ export const createAdvert = async (req, res, next) => {
 
     res.status(201).json({ message: "Advert successfully created." });
   } catch (error) {
-    if(error.name === 'MongooseError')
-    {
+    if (error.name === "MongooseError") {
       return res.status(409).json(error.message);
     }
     next(error);
@@ -54,11 +53,12 @@ export const getAdverts = async (req, res, next) => {
   try {
     const { filter = "{}", sort = "{}" } = req.query;
     // Fetch products from database
-    const result = await AdvertModel.find(JSON.parse(filter)).sort(
-      JSON.parse(sort)
-    );
+
+    const query = {userId: req.auth.id, ...filter}
+    const advert = await AdvertModel.find(query);
+    
     // Return response`
-    res.status(200).json(result);
+    res.status(200).json(advert);
   } catch (error) {
     next(error);
   }
@@ -66,9 +66,9 @@ export const getAdverts = async (req, res, next) => {
 
 export const getAdvert = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    // const { id } = req.params;
 
-    const advert = await AdvertModel.findById(id);
+    const advert = await AdvertModel.findOne({_id: req.params.id, userId: req.auth.id });
 
     if (!advert) {
       return res.status(404).json("Advert not found");
@@ -76,19 +76,24 @@ export const getAdvert = async (req, res, next) => {
 
     return res.status(200).json(advert);
   } catch (error) {
-    next(error); 
+    next(error);
   }
 };
 
 export const deleteAdvert = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const advertId = req.params.id;
 
-    const advert = await AdvertModel.findByIdAndDelete(id);
+    const advert = await AdvertModel.findOne({
+      id: req.params.id,
+      userId: req.auth.id,
+    });
 
     if (!advert) {
-      return res.status(404).json("Advert not found.");
+      return res.status(404).json({error: "Advert not found"})
     }
+
+    await AdvertModel.findByIdAndDelete(advert.id);
 
     return res.status(200).json("Advert successfully deleted!");
   } catch (error) {
@@ -96,17 +101,20 @@ export const deleteAdvert = async (req, res, next) => {
   }
 };
 
-export const updateAdvert = async (req, res,next) => {
+export const updateAdvert = async (req, res, next) => {
   try {
     const advertId = req.params.id;
 
-    const advert = await AdvertModel.findByIdAndUpdate(advertId, req.body, {
+    const advert = await AdvertModel.findOne({_id: req.params.id, userId: req.auth.id});
+
+    if(!advert){
+      return res.status(404).json('Advert not found');
+    }
+
+
+    const updatedAdvert = await AdvertModel.findByIdAndUpdate(advert.id, req.body, {
       new: true,
     });
-
-    if (!advert) {
-      return res.status(404).json("Advert not found.");
-    }
 
     return res.status(200).json("Advert successfully updated.");
   } catch (error) {

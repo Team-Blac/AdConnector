@@ -9,6 +9,7 @@ import {
 import { advertPicturesUpload } from "../middlewares/upload.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 import { isAuthorized } from "../middlewares/auth.js";
+import { getAuthenticatedUser } from "../controllers/user.js";
 
 // Create vendor router
 const advertRouter = Router();
@@ -24,14 +25,14 @@ advertRouter.post(
 
 advertRouter.get("/adverts/", getAdverts);
 
-advertRouter.get("/adverts/:id", getAdvert);
-
 advertRouter.delete(
   "/adverts/:id",
   isAuthenticated,
-  isAuthorized(["superadmin", "admin", "vendor"]),
+  isAuthorized(["superadmin", "admin","vendor"]),
   deleteAdvert
 );
+
+advertRouter.get("/adverts/:id", getAdvert);
 
 advertRouter.patch(
   "/adverts/:id",
