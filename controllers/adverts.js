@@ -128,11 +128,11 @@ export const updateAdvert = async (req, res, next) => {
       return res.status(404).json("Advert not found");
     }
 
-    await AdvertModel.findByIdAndUpdate(advert.id, req.body, {
+    const updatedAdvert = await AdvertModel.findByIdAndUpdate(advert.id, req.body, {
       new: true,
     });
 
-    return res.status(200).json("Advert successfully updated.");
+    return res.status(200).json({message: 'Advert updated successfully',ad: updatedAdvert});
   } catch (error) {
     next(error);
   }
