@@ -101,7 +101,7 @@ export const deleteAdvert = async (req, res, next) => {
     const advertId = req.params.id;
 
     const advert = await AdvertModel.findOne({
-      id: req.params.id,
+      _id: req.params.id,
       userId: req.auth.id,
     });
 
