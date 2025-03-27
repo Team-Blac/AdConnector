@@ -125,7 +125,7 @@ export const updateAdvert = async (req, res, next) => {
     }
 
 
-    const updatedAdvert = await AdvertModel.findByIdAndUpdate(advert.id, req.body, {
+    await AdvertModel.findByIdAndUpdate(advert.id, req.body, {
       new: true,
     });
 
